@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEXCLUB</title>
+<style>
+body{
+  margin:0;
+  font-family:"Poppins",sans-serif;
+  color: #fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  background: url('myweb2.jpg') no-repeat center center fixed;
+  background-size: cover;
+  overflow:hidden;
+}
+
+.card{
+  position:relative;
+  background: linear-gradient(145deg, rgb(138, 0, 230), rgb(17, 0, 28));
+  border-radius:18px;
+  padding:25px;
+  width:280px;
+  text-align:center;
+  box-shadow:0 0 20px rgb(255, 255, 255);
+  border:1px solid #ab47ef;
+  transform-style:preserve-3d;
+  transition:transform 0.15s ease-out, box-shadow 0.15s ease-out;
+  pointer-events:auto;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  top:0; left:0; right:0; bottom:0;
+  border-radius:18px;
+  pointer-events:none;
+  background: linear-gradient(120deg, rgba(250, 181, 53, 0), rgba(255,255,255,0));
+  mix-blend-mode:screen;
+  opacity:0.7;
+}
+
+.avatar{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #8a00e6;
+  margin-bottom:12px;
+  position:relative;
+  box-shadow:0 0 10px rgb(138, 0, 230);
+  transition: box-shadow 0.3s ease;
+}
+
+.avatar:hover{
+  box-shadow:0 0 20px rgb(138, 0, 230),0 0 25px rgba(138,0,230,0.7);
+}
+
+h1{
+  margin:0;
+  font-size:20px;
+}
+
+p{
+  font-size:12px;
+  opacity:.8;
+  margin-bottom:15px;
+}
+
+.links a{
+  display:block;
+  background: rgba(255,255,255,0.2);
+  margin:6px 0;
+  padding:9px;
+  border-radius:10px;
+  color:#fff;
+  text-decoration:none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  font-size:13px;
+}
+
+.links a:hover{
+  background: rgba(255,255,255,0.3);
+}
+
+.links a:active{
+  transform: scale(1.2) translateZ(5px);
+  box-shadow:0 0 10px rgb(255, 255, 255),0 0 25px rgb(138,0,230);
+  background: rgb(138,0,230);
+}
+
+.copyright{
+  font-size:10px;
+  opacity:0.6;
+  margin-top:10px;
+}
+
+@media screen and (max-width:400px){
+  .card{padding:15px;width:240px;}
+  .avatar{width:70px;height:70px;}
+  h1{font-size:18px;}
+  p{font-size:11px;}
+  .links a{font-size:12px;padding:7px;}
+}
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <img class="avatar" src="vexpiccc.jpg" alt="Avatar">
+  <h1>C.I.VEX</h1>
+  <p>About Us</p>
+
+  <div class="links">
+    <a href="https://www.instagram.com/c.i.vex.club/" target="_blank">Instagram</a>
+    <a href="https://www.facebook.com/c.i.vex.club" target="_blank">Facebook</a>
+    <a href="https://www.tiktok.com/@vex0740" target="_blank">TikTok</a>
+    <a href="https://www.youtube.com/@civexclub" target="_blank">YouTube</a>
+    <a href="mailto:civexclub@gmail.com">Email</a>
+  </div>
+
+  <span class="copyright">★ created by the leader ★</span>
+</div>
+
+<script>
+const card = document.getElementById("card");
+let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+
+// حركة الماوس للأجهزة المكتبية
+document.addEventListener("mousemove", e=>{
+  const rect = card.getBoundingClientRect();
+  const x = e.clientX - rect.left - rect.width/2;
+  const y = e.clientY - rect.top - rect.height/2;
+  targetX = x / 25;
+  targetY = -y / 25;
+});
+
+// ميلان الهاتف
+window.addEventListener("deviceorientation", e=>{
+  targetX = e.gamma / 5; // يمين/يسار
+  targetY = -e.beta / 5; // أمام/خلف
+});
+
+// تحديث الحركة والظل
+function animate(){
+  currentX += (targetX - currentX) * 0.08;
+  currentY += (targetY - currentY) * 0.08;
+
+  card.style.transform = `rotateX(${currentY}deg) rotateY(${currentX}deg) translateZ(10px)`;
+  const shadowX = -currentX * 2;
+  const shadowY = currentY * 2;
+  card.style.boxShadow = `${shadowX}px ${shadowY}px 30px rgba(255,255,255,0.4), ${shadowX/2}px ${shadowY/2}px 50px rgba(138,0,230,0.3)`;
+
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>
